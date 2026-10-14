@@ -1,0 +1,56 @@
+# Goougas Video Creator
+
+Goougas Video Creator is a local-first video creation tool with:
+- offline video generation using a local Stable Diffusion model + ffmpeg
+- online/cloud generation support via provider adapters
+- a local LLM assistant proxy for offline chat workflows
+- a frontend video generation panel for choosing generation mode and provider
+
+## Included modules
+- `scripts/generate_video.py` — local offline video generation
+- `offline/requirements.txt` — Python dependencies for offline generation
+- `server/video-proxy/` — Node API for local and cloud generation
+- `server/llm-proxy/` — local LLM proxy for assistant chat
+- `src/components/VideoGeneratePanel.tsx` — frontend panel for UI integration
+- `src/services/videoClient.ts` — frontend client for the generation API
+- `docs/VIDEO_MODES.md` — offline/online generation guide
+
+## Quick start
+
+### 1) Offline video generation
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -U pip
+pip install -r offline/requirements.txt
+python scripts/generate_video.py --model_dir models/stable-diffusion-1-5 --prompt "A cinematic city at sunset, realistic" --width 768 --height 512 --frames 12 --fps 4 --output output/video.mp4
+```
+
+### 2) Start the video API
+
+```bash
+cd server/video-proxy
+cp .env.example .env
+npm install
+npm start
+```
+
+### 3) Start the local LLM proxy (optional)
+
+```bash
+cd server/llm-proxy
+cp .env.example .env
+npm install
+node index.js
+```
+
+### 4) Use the frontend panel
+
+Import and render `VideoGeneratePanel` from `src/components/VideoGeneratePanel.tsx` in your app.
+
+## Notes
+- Offline generation needs a local model directory and ffmpeg installed.
+- Online generation requires API keys in `.env` and provider-specific model IDs.
+- The app is designed for local/private use; add auth and rate limiting before public deployment.
+
