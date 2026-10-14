@@ -1,0 +1,13 @@
+torch>=2.1.0
+transformers>=4.30.0
+diffusers>=0.22.0
+accelerate>=0.21.0
+safetensors
+xformers
+scipy
+Pillow
+ffmpeg-python
+soundfile
+numpy
+# Optional for TTS
+TTS
