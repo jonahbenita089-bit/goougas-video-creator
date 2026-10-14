@@ -1,0 +1,20 @@
+{
+  "name": "goougas-llm-proxy",
+  "version": "1.0.0",
+  "description": "Local LLM proxy to talk to text-generation-inference or text-generation-webui",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

@@ -1,0 +1,40 @@
+I added a local LLM proxy server (server/llm-proxy) and a simple frontend chat widget (src/components/ChatWidget.tsx) plus a small client wrapper (src/services/llmClient.ts). Here's what I did and how to run it:
+
+What I added
+- server/llm-proxy
+  - index.js — Express proxy that forwards prompts to a local LLM server (TGI or webui).
+  - package.json — installable Node package and scripts.
+  - .env.example — configure LLM_URL/MODEL_NAME/PORT.
+  - README.md — quick notes.
+- src/services/llmClient.ts — frontend helper to call proxy.
+- src/components/ChatWidget.tsx — basic chat UI component you can drop into the app.
+- docs/LOCAL_LLM_SETUP.md — instructions for running a local TGI or alternative.
+
+Next steps (run locally)
+1) Start your local LLM server (see docs/LOCAL_LLM_SETUP.md). Example: run TGI on port 8080 with your chosen model.
+
+2) Start the proxy server (from repo root):
+
+```bash
+cd server/llm-proxy
+cp .env.example .env   # edit if needed
+npm install
+node index.js
+```
+
+3) Integrate the ChatWidget in the web UI. If the app uses React, import and render the component where you want the assistant. The widget talks to the proxy at /api/llm/generate — if your frontend dev server runs on a different port in development, configure a dev proxy or run both the frontend and the proxy behind a reverse proxy.
+
+4) Test
+- Open the UI, type a prompt, and press Send. The proxy will forward the prompt to your local LLM server and return the text.
+
+Notes & improvements
+- Streaming: This implementation returns full responses. If you want token streaming, we can add SSE/websocket streaming between TGI and the frontend.
+- Authentication: For local use it's fine; for wider deployment add auth.
+- Model adapters: The proxy currently posts {inputs, parameters} to the LLM URL. If you use a different LLM server with a different format, adjust index.js to match (I tried to keep it generic).
+
+I pushed these changes to the repository. Would you like me to:
+A) Wire the ChatWidget into the main UI and open a PR/branch with component placement, or
+B) Add streaming token support for progressive UI updates, or
+C) Configure example model and run scripts to demo end-to-end with a recommended free/open model (note: model download may be large)?
+
+Tell me which next step and your machine details (GPU VRAM / OS) if you want me to tailor the model recommendation and docker command.
